@@ -1,0 +1,76 @@
+@startuml
+' Diagrama de pacotes e classes principais do projeto WSI RVC
+
+package "conversor" {
+    class Controller {
+        +convert_voice()
+    }
+    class Service {
+        +convert()
+    }
+    class Processor {
+        +process_audio()
+    }
+    class CoreConversionService {
+        +core_convert()
+    }
+    Controller --> Service
+    Service --> Processor
+    Service --> CoreConversionService
+}
+
+package "core" {
+    class Application {
+        +run()
+    }
+    class EnvironmentVariables {
+        +get_env()
+    }
+    Application --> EnvironmentVariables
+}
+
+package "embedding" {
+    class Factory {
+        +create_embedding()
+    }
+    class Manager {
+        +manage_embeddings()
+    }
+    class Service {
+        +extract_embeddings()
+    }
+    Factory --> Manager
+    Manager --> Service
+}
+
+package "model" {
+    class Factory {
+        +create_model()
+    }
+    class Manager {
+        +manage_models()
+    }
+    Factory --> Manager
+}
+
+package "shared" {
+    class Singleton {
+        +get_instance()
+    }
+    class ObservableSingleton {
+        +observe()
+    }
+    Singleton <|-- ObservableSingleton
+}
+
+package "tts" {
+    class TTSProvider {
+        +provide_tts()
+    }
+    class TTSService {
+        +synthesize()
+    }
+    TTSProvider --> TTSService
+}
+
+@enduml

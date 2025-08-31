@@ -103,3 +103,5 @@ python_libs.tar.gz
 *.pt
 
 version.txt
+
+app.log

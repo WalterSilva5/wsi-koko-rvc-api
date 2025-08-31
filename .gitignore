@@ -1,0 +1,105 @@
+# compiled output
+/dist
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+yarn.lock
+package-lock.json
+
+.env
+
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+env/
+*.venv/
+
+# Dependency directories
+lib/
+libs/
+library/
+
+# Distribution / packaging
+dist/
+build/
+eggs/
+*.egg-info/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.pyc
+*.swo
+*.swp
+*.py~
+
+
+# Miscellaneous
+*.log
+*.bak
+*.tmp
+*.tmp.*
+*.swp
+*.swo
+*.mp3
+*.wav
+*.ogg
+*.mp4
+*.csv
+*.json
+*.xlsx
+
+/models/*
+*.lock
+poetry.lock
+.pytest_cache
+.coverage
+htmlcov
+.env.test
+
+.mypy_cache/
+
+python_libs.tar.gz
+*.tar.gz
+*.zip
+
+./outputs/*
+./inputs/*
+*.pth
+*.pt
+
+version.txt

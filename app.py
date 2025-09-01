@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from project.conversor.controller import router as conversor_router
+from project.router.global_router import router as conversor_router
 from project.core.application import Application
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -14,13 +14,10 @@ server = FastAPI(
     description="API for wsi Voice Conversor",
     version="0.0.1",
     swagger_url="/docs",
-    swagger_ui_parameters={
-        "syntaxHighlight": {
-            "activated": True
-        }
-    },
+    swagger_ui_parameters={"syntaxHighlight": {"activated": True}},
     debug=True,
 )
+
 
 class ExceptionLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
@@ -31,7 +28,9 @@ class ExceptionLoggingMiddleware(BaseHTTPMiddleware):
             logger.error("Unhandled exception: %s", str(exc), exc_info=True)
             raise
 
+
 server.add_middleware(ExceptionLoggingMiddleware)
+
 
 @server.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -42,6 +41,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         content={"detail": exc.errors(), "body": exc.body},
     )
 
+
 @server.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     logger.info("HTTP error: %s", exc.detail)
@@ -50,6 +50,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         status_code=exc.status_code,
         content={"detail": exc.detail},
     )
+
 
 @server.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
@@ -60,5 +61,6 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"detail": str(exc)},
     )
+
 
 server.include_router(conversor_router, prefix="/api", tags=["Voice Conversion"])

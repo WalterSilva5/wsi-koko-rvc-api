@@ -3,6 +3,7 @@ import asyncio
 import logging
 from aiohttp import ClientTimeout
 
+
 class TtsProvider:
     def __init__(self, url="http://localhost:8880/v1"):
         self.url = url
@@ -12,13 +13,13 @@ class TtsProvider:
         if options is None:
             options = {}
 
-        #TODO cadastrar vozes e mapear o cadastro
-        #"am_adam" = voz masculina
-        #"af_alloy" = voz feminina
+        # TODO cadastrar vozes e mapear o cadastro
+        # "af_kore" = voz masculina
+        # "af_alloy" = voz feminina
         payload = {
-            "model": "kokoro",
+            "model": "tts-1-hd",
             "input": text,
-            "voice": "am_adam",
+            "voice": "af_kore",
             "response_format": options.get("response_format", "mp3"),
             "download_format": options.get("download_format", "mp3"),
             "speed": options.get("speed", 1),
@@ -26,7 +27,9 @@ class TtsProvider:
             "return_download_link": options.get("return_download_link", False),
             "lang_code": options.get("lang_code", "a"),
             "volume_multiplier": options.get("volume_multiplier", 1),
-            "normalization_options": options.get("normalization_options", {"normalize": True}),
+            "normalization_options": options.get(
+                "normalization_options", {"normalize": True}
+            ),
         }
 
         endpoint = f"{self.url}/audio/speech"
@@ -40,7 +43,9 @@ class TtsProvider:
 
                 async with session.post(endpoint, json=payload) as response:
                     content_type = response.headers.get("Content-Type", "")
-                    self.logger.info(f"Received response with content-type: {content_type}")
+                    self.logger.info(
+                        f"Received response with content-type: {content_type}"
+                    )
 
                     if content_type.startswith("application/json"):
                         json_response = await response.json()
@@ -49,11 +54,16 @@ class TtsProvider:
 
                     audio_data = await response.read()
                     self.logger.info("Returning audio buffer")
-                    return {"success": True, "audio": audio_data, "content_type": content_type}
+                    return {
+                        "success": True,
+                        "audio": audio_data,
+                        "content_type": content_type,
+                    }
 
         except aiohttp.ClientError as e:
             self.logger.error(f"Error synthesizing speech: {str(e)}")
             raise Exception(f"Error synthesizing speech: {str(e)}")
+
 
 # Example usage
 # async def main():
